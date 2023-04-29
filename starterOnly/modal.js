@@ -33,4 +33,49 @@ function launchModal() {
   modalbg.style.display = "block";
 }
 
+// test if email is valid
+function isEmailValid() {
+  var emailRegEx = o;
 
+  if(!emailRegEx.test(mailUser)) {
+    console.log(mailUser + " n'est pas valide")
+    return false;
+  } else {
+      return true;
+  }
+}
+
+// test if the input contains only numbers
+function isContainOnlyNumber() {
+  var numberRegEx = o;
+
+  if(!numberRegEx.test(turnamentNumber)) {
+    console.log("Ce champ ne doit contenir que des chiffres")
+  } else {
+      return true;
+  }
+}
+
+// form validate
+function validate() {
+  if(firstName != '' && firstName > 1) {
+    console.log("Veuillez saisir un prénom valide")
+  }
+  if(lastName != '' && lastName > 1) {
+    console.log("Veuillez saisir un nom valide")
+  }
+  //isEmailValid();
+  //isContainOnlyNumber();
+  for(let i = 1; i <= 6; i++)
+  {
+    const loc = "location" + i;
+    const location = document.getElementById(loc);
+    if(!location.checked) {
+      console.log("Veuillez sélectionner une location")
+      return false;
+    }
+  }
+  if(!check1) {
+    console.log("Veuillez accepter les conditions d'utilisation")
+  }
+}
