@@ -11,11 +11,12 @@ function editNav() {
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
+
 const firstName = document.getElementById("first");
 const lastName = document.getElementById("last");
 const mailUser = document.getElementById("email");
 const birthdateUser = document.getElementById("birthdate");
-const turnamentNumber = document.getElementById("number");
+const turnamentNumber = document.getElementById("quantity");
 const loc1 = document.getElementById("location1");
 const loc2 = document.getElementById("location2");
 const loc3 = document.getElementById("location3");
@@ -33,49 +34,59 @@ function launchModal() {
   modalbg.style.display = "block";
 }
 
-// test if email is valid
-function isEmailValid() {
-  var emailRegEx = o;
-
-  if(!emailRegEx.test(mailUser)) {
-    console.log(mailUser + " n'est pas valide")
-    return false;
-  } else {
-      return true;
-  }
-}
-
-// test if the input contains only numbers
-function isContainOnlyNumber() {
-  var numberRegEx = o;
-
-  if(!numberRegEx.test(turnamentNumber)) {
-    console.log("Ce champ ne doit contenir que des chiffres")
-  } else {
-      return true;
-  }
-}
-
 // form validate
 function validate() {
-  if(firstName != '' && firstName > 1) {
-    console.log("Veuillez saisir un prénom valide")
-  }
-  if(lastName != '' && lastName > 1) {
-    console.log("Veuillez saisir un nom valide")
-  }
-  //isEmailValid();
-  //isContainOnlyNumber();
-  for(let i = 1; i <= 6; i++)
-  {
-    const loc = "location" + i;
-    const location = document.getElementById(loc);
-    if(!location.checked) {
-      console.log("Veuillez sélectionner une location")
-      return false;
+  var emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var numberRegEx = /^\d$/;
+
+  let isRadioChecked = false;
+  let isValid = true;
+
+  formData.forEach((data) => {
+    const input = data.querySelector('input');
+    const inputValue = input.value.trim();
+    const inputRadio = data.querySelectorAll('input[type="radio"]');
+    const inputCheckbox = data.querySelectorAll('input[id="checkbox1"]');
+
+    if(input.name == 'first') {
+      if(inputValue < 2) {
+        console.log('prénom trop court');
+        isValid = false;
+      }
     }
-  }
-  if(!check1) {
-    console.log("Veuillez accepter les conditions d'utilisation")
+    if(input.name == 'last') {
+      if(inputValue < 2) {
+        console.log('nom trop court');
+        isValid = false;
+      }
+    }
+    if(input.type == 'email' && !emailRegEx.test(inputValue)) {
+      console.log(inputValue + " n'est pas valide");
+      isValid = false;
+    }
+    if(input.type == 'number' && !numberRegEx.test(inputValue)) {
+      console.log("Ce champ ne doit contenir que des chiffres");
+      isValid = false;
+    }
+    if(input.type == 'radio') {
+      inputRadio.forEach((check) => {
+        if(check.checked) {
+          isRadioChecked = true;
+        }
+      })
+      if(isRadioChecked == false) {
+        isValid = false;
+        console.log("Il faut sélectionner au moins une location");
+      }
+    }
+    if(!inputCheckbox.checked) {
+      isValid = false;
+      console.log("Vous devez accepté les conditions d'utilisation");
+    }
+  })
+  if(!isValid) {
+    return false;
+  } else {
+    return true;
   }
 }
