@@ -46,7 +46,7 @@ function validate() {
     const input = data.querySelector('input');
     const inputValue = input.value.trim();
     const inputRadio = data.querySelectorAll('input[type="radio"]');
-    const inputCheckbox = data.querySelectorAll('input[id="checkbox1"]');
+    const inputCheckbox = data.querySelector('input[id="checkbox1"]');
 
     if(input.name == 'first') {
       if(inputValue < 2) {
@@ -79,9 +79,11 @@ function validate() {
         console.log("Il faut sélectionner au moins une location");
       }
     }
-    if(!inputCheckbox.checked) {
-      isValid = false;
-      console.log("Vous devez accepté les conditions d'utilisation");
+    if(input.id == "checkbox1") {
+        if(!inputCheckbox.checked) {
+          isValid = false;
+          console.log("Vous devez accepté les conditions d'utilisation");
+        }
     }
   })
   if(!isValid) {
