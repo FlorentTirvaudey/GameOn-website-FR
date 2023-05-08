@@ -38,16 +38,16 @@ function closeModal() {
 function validate() {
   var emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   var numberRegEx = /^\d$/;
+  var birthdateRegEx = /^[0-9]{4}\-[01][0-9]\-[0-3][0-9]/;
 
   let isRadioChecked = false;
   let isValid = true;
 
   formData.forEach((data) => {
+    debugger
     const input = data.querySelector('input');
     const inputValue = input.value.trim();
     const inputRadio = data.querySelectorAll('input[type="radio"]');
-    const inputCheckbox = data.querySelector('input[id="checkbox1"]');
-
     
     if(input.name == 'first' || input.name == 'last') {
       console.log(inputValue.length)
@@ -56,52 +56,55 @@ function validate() {
           isValid = false;
         } else {
           data.removeAttribute('data-error-visible');
-          isValid = true;
         }
     }
-    if(input.type == 'email') {
+    else if(input.type == 'email') {
       if(!emailRegEx.test(inputValue)) {
-        console.log(inputValue + " n'est pas valide");
         data.setAttribute('data-error-visible', 'true');
         isValid = false;
       } else {
         data.removeAttribute('data-error-visible');
-        isValid = true;
       }
     }
-    if(input.type == 'number') {
+    else if(input.type == 'date') {
+      if(!birthdateRegEx.test(inputValue) || inputValue == '') {
+        data.setAttribute('data-error-visible', 'true');
+        isValid = false;
+      } else {
+        data.removeAttribute('data-error-visible');
+      }
+    }
+    else if(input.type == 'number') {
       if(!numberRegEx.test(inputValue)) {
         console.log("Ce champ ne doit contenir que des chiffres");
         isValid = false;
         data.setAttribute('data-error-visible', 'true');
       } else {
         data.removeAttribute('data-error-visible');
-        isValid = true;
       }
     }
-    if(input.type == 'radio') { // todo: valide le formulaire si checked ??
+    else if(input.type == 'radio') {
       inputRadio.forEach((check) => {
         if(check.checked) {
           isRadioChecked = true;
         }
       })
       if(isRadioChecked == false) {
-        console.log("Il faut sélectionner au moins une location");
-        data.setAttribute('data-error-visible', 'true'); // todo: conflit entre la checkbox et les input radio
-        return false;
+        data.setAttribute('data-error-visible', 'true');
+        isValid = false;
       } else {
         data.removeAttribute('data-error-visible');
-        isValid = true;
       }
     }
-    if(input.id == "checkbox1") { // todo: valide le formulaire si checked ??
-        if(!inputCheckbox.checked) {
-          isValid = false;
-          data.setAttribute('data-error-visible', 'true');
-          console.log("Vous devez accepté les conditions d'utilisation");
-        } else {
-          data.removeAttribute('data-error-visible');
-          isValid = true;
+     else if(input.type == 'checkbox') {
+        if(input.id == "checkbox1") {
+            if(!input.checked) {
+              data.setAttribute('data-error-visible', 'true');
+              console.log("Vous devez accepté les conditions d'utilisation");
+              isValid = false;
+            } else {
+              data.removeAttribute('data-error-visible');
+            }
         }
     }
   })
