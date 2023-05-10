@@ -178,12 +178,12 @@ main {
  align-items: center;
 }
 
-.bground.confirm .modal-body {
+.validation-body {
   position: absolute;
-  font-size: 2.0em;
-  align-items: center;
   top: 50%;
   transform: translateY(-50%);
+  font-size: 1.8em;
+  align-items: center;
 }
 
 .content {
@@ -351,6 +351,13 @@ input[data-error]::after {
   cursor: pointer;
   border: 0;
 }
+
+.btn-submit.close_validation {
+  position: absolute;
+  bottom: 50px;
+  left: 30%;
+}
+
 /* custom select styles */
 .custom-select {
   position: relative;

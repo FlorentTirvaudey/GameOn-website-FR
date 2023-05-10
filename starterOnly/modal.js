@@ -11,11 +11,9 @@ function editNav() {
 const modalbg = document.querySelector(".bground.form");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
-const formFirstname = document.getElementById("first");
-const formLastname = document.getElementById("last");
 
 const confirm = document.querySelector(".bground.confirm");
-
+const closeValidation = document.querySelector(".btn-submit.close_validation");
 const cross = document.querySelectorAll(".close");
 
 // launch modal event
@@ -26,6 +24,9 @@ cross.forEach((croix) => {
   croix.addEventListener("click", closeModal);
 })
 
+// close validation window
+closeValidation.addEventListener("click", closeValid);
+
 // launch modal form
 function launchModal() {
   modalbg.style.display = "block";
@@ -33,7 +34,7 @@ function launchModal() {
 
 // close modal event
 function closeModal() {
-  if (modalbg.style.display = "block") {
+  if(modalbg.style.display = "block") {
     modalbg.style.display = "none";
   }
   if(confirm.style.display = "block") {
@@ -41,8 +42,17 @@ function closeModal() {
   }
 }
 
+// close validation window
+function closeValid() {
+  if(confirm.style.display = "block") {
+    confirm.style.display = "none";
+  }
+}
+
 // form validate
 function validate() {
+
+  // waiting formats for input email, number and birthdate
   var emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   var numberRegEx = /^\d$/;
   var birthdateRegEx = /^[0-9]{4}\-[01][0-9]\-[0-3][0-9]/;
@@ -51,13 +61,11 @@ function validate() {
   let isValid = true;
 
   formData.forEach((data) => {
-    debugger
     const input = data.querySelector('input');
     const inputValue = input.value.trim();
     const inputRadio = data.querySelectorAll('input[type="radio"]');
     
     if(input.name == 'first' || input.name == 'last') {
-      console.log(inputValue.length)
         if(inputValue.length < 2) {
           data.setAttribute('data-error-visible', 'true');
           isValid = false;
@@ -114,7 +122,8 @@ function validate() {
             }
         }
     }
-  })
+  });
+
   if(!isValid) {
     return false;
   } else {
