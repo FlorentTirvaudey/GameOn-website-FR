@@ -8,19 +8,23 @@ function editNav() {
 }
 
 // DOM Elements
-const modalbg = document.querySelector(".bground");
+const modalbg = document.querySelector(".bground.form");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const formFirstname = document.getElementById("first");
 const formLastname = document.getElementById("last");
 
-const cross = document.querySelector(".close");
+const confirm = document.querySelector(".bground.confirm");
+
+const cross = document.querySelectorAll(".close");
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
 // close modal event
-cross.addEventListener("click", closeModal);
+cross.forEach((croix) => {
+  croix.addEventListener("click", closeModal);
+})
 
 // launch modal form
 function launchModal() {
@@ -31,6 +35,9 @@ function launchModal() {
 function closeModal() {
   if (modalbg.style.display = "block") {
     modalbg.style.display = "none";
+  }
+  if(confirm.style.display = "block") {
+    confirm.style.display = "none";
   }
 }
 
@@ -111,6 +118,8 @@ function validate() {
   if(!isValid) {
     return false;
   } else {
-    return true;
+    modalbg.style.display = "none";
+    confirm.style.display = "block";
+    return false;
   }
 }
