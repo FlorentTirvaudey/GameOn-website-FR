@@ -50,30 +50,34 @@ function closeValid() {
 }
 
 // form validate
-function validate() {
+document.getElementById('form_modal').addEventListener('submit', (event) => {
+  event.preventDefault();
 
   // waiting formats for input email, number and birthdate
-  var emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  var numberRegEx = /^\d$/;
-  var birthdateRegEx = /^[0-9]{4}\-[01][0-9]\-[0-3][0-9]/;
-
+  var emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;           // contain a string in the shape of 'aa@aa.com'
+  var numberRegEx = /^\d$/;                                // contain only numbers
+  var birthdateRegEx = /^[0-9]{4}\-[01][0-9]\-[0-3][0-9]/; // contain a string in the shape of '2023-01-01'
+  
   let isRadioChecked = false;
-  let isValid = true;
-
+  let isValid = true; // true : input is valid, false : is not valid, we can prevent the submit of the form if this boolean is false
+  
+  // travel all data in this form
   formData.forEach((data) => {
     const input = data.querySelector('input');
-    const inputValue = input.value.trim();
+    const inputValue = input.value.trim(); // ignore spaces in the current input
     const inputRadio = data.querySelectorAll('input[type="radio"]');
     
     if(input.name == 'first' || input.name == 'last') {
+      // check if name and lastname input values contain more than 2 letters
         if(inputValue.length < 2) {
-          data.setAttribute('data-error-visible', 'true');
+          data.setAttribute('data-error-visible', 'true'); // display error message
           isValid = false;
         } else {
-          data.removeAttribute('data-error-visible');
+          data.removeAttribute('data-error-visible'); // remove error message
         }
     }
     else if(input.type == 'email') {
+      // check if email input value match with the emailRegex
       if(!emailRegEx.test(inputValue)) {
         data.setAttribute('data-error-visible', 'true');
         isValid = false;
@@ -82,6 +86,7 @@ function validate() {
       }
     }
     else if(input.type == 'date') {
+      // check if birthdate input value match with the birthdateRegex
       if(!birthdateRegEx.test(inputValue) || inputValue == '') {
         data.setAttribute('data-error-visible', 'true');
         isValid = false;
@@ -90,6 +95,7 @@ function validate() {
       }
     }
     else if(input.type == 'number') {
+      // check if this input value match with the numberRegex
       if(!numberRegEx.test(inputValue)) {
         console.log("Ce champ ne doit contenir que des chiffres");
         isValid = false;
@@ -98,6 +104,7 @@ function validate() {
         data.removeAttribute('data-error-visible');
       }
     }
+    // travel all radiobox and test if atleast one is checked
     else if(input.type == 'radio') {
       inputRadio.forEach((check) => {
         if(check.checked) {
@@ -112,6 +119,7 @@ function validate() {
       }
     }
      else if(input.type == 'checkbox') {
+      // check if this checkbox is checked and prevent the submit if not
         if(input.id == "checkbox1") {
             if(!input.checked) {
               data.setAttribute('data-error-visible', 'true');
@@ -123,12 +131,12 @@ function validate() {
         }
     }
   });
-
+  
   if(!isValid) {
-    return false;
+    event.preventdefault(); // prevent the submit of this form
   } else {
-    modalbg.style.display = "none";
-    confirm.style.display = "block";
-    return false;
+    modalbg.style.display = "none";  // remove form block
+    confirm.style.display = "block"; // display validation message
+    event.preventdefault();
   }
-}
+})
