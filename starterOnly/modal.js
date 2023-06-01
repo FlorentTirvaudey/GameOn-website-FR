@@ -97,7 +97,6 @@ document.getElementById('form_modal').addEventListener('submit', (event) => {
     else if(input.type == 'number') {
       // check if this input value match with the numberRegex
       if(!numberRegEx.test(inputValue)) {
-        console.log("Ce champ ne doit contenir que des chiffres");
         isValid = false;
         data.setAttribute('data-error-visible', 'true');
       } else {
@@ -123,7 +122,6 @@ document.getElementById('form_modal').addEventListener('submit', (event) => {
         if(input.id == "checkbox1") {
             if(!input.checked) {
               data.setAttribute('data-error-visible', 'true');
-              console.log("Vous devez accepté les conditions d'utilisation");
               isValid = false;
             } else {
               data.removeAttribute('data-error-visible');
